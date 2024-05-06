@@ -10,9 +10,7 @@ app.use(express.json());
 app.use(cors());
 app.use("/uploads", express.static("uploads"));
 
-app.get("/", (req, res) => {
-  res.json({ message: "Hello World 123!" });
-});
+
 
 app.post("/register", async (req, res) => {
   try {
@@ -52,7 +50,8 @@ app.post("/login", async (req, res) => {
     console.error("Error logging in:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-});//invalid credentials needed
+});
+//Invalid Credentials
 
 app.get("/blog", async (req, res) => {
   try {

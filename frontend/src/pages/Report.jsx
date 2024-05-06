@@ -13,7 +13,7 @@ const Report = () => {
   ];
   const generatePDF = () => {
     const doc = new jsPDF();
-    doc.text('Donation Report', 10, 10);
+    doc.text('Incident Report', 10, 10);
     doc.autoTable({
       head: [['Incident ID', 'Title', 'Location', 'Severity', 'Reporter']],
       body: sampleData.map(item => [
