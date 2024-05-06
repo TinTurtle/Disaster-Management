@@ -10,31 +10,22 @@ const Login = () => {
     password: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
       toast.error("Please fill in all fields!");
       return;
     }
     console.log(formData);
-    const res = axios.post("", formData); //place api url here
-    if (res.ok) {
-      toast.success("Login successful!", {
-        position: "top-right",
-        autoClose: 3000, // Close the toast after 3 seconds
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      setFormData({
-        email: "",
-        password: "",
-      });
-      navigate("/home");
+    const res = await axios.post("http://localhost:3000/login", formData); //place api url here
+    console.log(res.data)
+    if(res.data.token){
+      navigate("/home")
+    }else{
+      toast("Invalid credentials!")
+      return
     }
-    navigate("/")
+   // navigate("/home")
   };
 
   const handleChange = (e) => {

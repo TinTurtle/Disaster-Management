@@ -1,4 +1,6 @@
+import jsPDF from 'jspdf';
 import React, { useState } from 'react';
+import 'jspdf-autotable';
 
 const Donation = () => {
   const [data, setData] = useState([]);
@@ -9,6 +11,15 @@ const Donation = () => {
     { resource_id: 2, quantity: 5, resource_person: 'Jane Smith', resource_type: 'Food' },
     { resource_id: 3, quantity: 8, resource_person: 'Alice Johnson', resource_type: 'Clothing' }
   ];
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    doc.text('Donation Report', 10, 10);
+    doc.autoTable({
+      head: [['Resource ID', 'Quantity', 'Resource Person', 'Resource Type']],
+      body: sampleData.map(item => [item.resource_id, item.quantity, item.resource_person, item.resource_type]),
+    });
+    doc.save('donation_report.pdf');
+  };
 
   return (
     <div className='container mx-auto'>
@@ -37,7 +48,7 @@ const Donation = () => {
         </table>
       </div>
       <div className='mt-4'>
-        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={generatePDF}>
           Download PDF
         </button>
       </div>

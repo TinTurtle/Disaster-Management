@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import Nopage from "./pages/Nopage";
 import Login from "./pages/login";
 import Register from "./pages/Register";
-import LandingPage from "./pages/landingpage";
+import LandingPage from "./pages/Landingpage";
 import Donation from "./pages/Donation";
 import Report from "./pages/Report";
 import Createblog from "./pages/Createincident";

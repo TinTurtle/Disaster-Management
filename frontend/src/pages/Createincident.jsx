@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -14,19 +15,9 @@ const Createblog = () => {
 
   const [newblog, setNewblog] = useState(blankBlog);
 
-  const handleUpload = async (event) => {
-    let uploadedFile = await uploadFile(event.target.files[0]);
-    if (uploadedFile.path) {
-      setNewblog({ ...newblog, image: uploadedFile.path });
-    }
-  };
-
   const handleSubmit = async () => {
-    let createdBlog = await createBlog(newblog);
-    if (createdBlog.desc == 1) {
-      setNewblog(blankBlog);
-      // alert("Blog added successfully !");
-    }
+    const res = await axios.post("http://localhost:3000/blog", newblog)
+    console.log(res)
   };
 
   const menu = [

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
@@ -9,16 +9,17 @@ const Register = () => {
     email: "",
     username: "",
     password: "",
+    phone : ""
   });
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.email || !formData.username || !formData.password) {
       toast.error("Please fill in all fields!");
       return;
     }
-    console.log(formData);
-    axios.post("", formData); // Place your API URL here
+    console.log(formData); 
+    axios.post("http://localhost:3000/register", formData); // Place your API URL here
     toast.success("Registration successful!", {
       position: "top-right",
       autoClose: 3000,
@@ -104,6 +105,21 @@ const Register = () => {
               className="mt-1 p-2 w-full border rounded-md"
               placeholder="Enter your password"
               value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="phone" className="block text-gray-700">
+              Phone no:
+            </label>
+            <input
+              type="text"
+              id="phone"
+              name="phone"
+              className="mt-1 p-2 w-full border rounded-md"
+              placeholder="Enter your phone no"
+              value={formData.phone}
               onChange={handleChange}
               required
             />
