@@ -25,7 +25,10 @@ const Incident = () => {
                 <h1 className='mt-1 text-3xl font-extrabold'>{incident.title}</h1>
             
                 <div className="flex mt-4 mb-4">
-                    <small>{dateFormat(incident.createdon,"mmmm dS, yyyy, h:MM TT")}</small>
+                    <small>{incident.location}</small>
+                </div>
+                <div className="flex mt-4 mb-4">
+                    <small>{incident.severity}</small>
                 </div>
                 <img className='rounded-lg' src={'.../assets/plain.jpg'} alt="" />
                 <div>
