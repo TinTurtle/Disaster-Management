@@ -2,9 +2,10 @@ import axios from "axios";
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-// import { uploadFile, createBlog } from "../api/Api";
+import { jwtDecode } from "jwt-decode";
 
 const Createblog = () => {
+
   const blankBlog = {
     title: "",
     location: "",
@@ -12,7 +13,7 @@ const Createblog = () => {
     post: "<p><br></p>",
     severity: "",
   };
-
+  
   const [newblog, setNewblog] = useState(blankBlog);
 
   const handleSubmit = async () => {

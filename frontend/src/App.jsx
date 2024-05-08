@@ -9,6 +9,8 @@ import LandingPage from "./pages/Landingpage";
 import Donation from "./pages/Donation";
 import Report from "./pages/Report";
 import Createblog from "./pages/Createincident";
+import Incident from "./pages/Incident";
+
 
 function App() {
   const [count, setCount] = useState(0);
@@ -25,8 +27,7 @@ function App() {
             <Route path='/donation' element={<Donation />}></Route>
             <Route path='/report' element={<Report />}></Route>
             <Route path='/create' element={<Createblog />}></Route>
-
-
+            <Route path='/blog/:id' element={<Incident />}></Route>
             <Route path='*' element={<Nopage />}></Route>
           </Route>
         </Routes>

@@ -11,22 +11,41 @@ const Login = () => {
   });
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!formData.email || !formData.password) {
-      toast.error("Please fill in all fields!");
-      return;
+    e.preventDefault()
+    try {
+      if (!formData.email || !formData.password) {
+        toast.error("Please provide both email and password");
+        return;
+      }
+  
+      const response = await axios.post("http://localhost:3000/login", {
+        email: formData.email,
+        password: formData.password
+      });
+  
+      if (response.status === 200) {
+        const token = response.data.token;
+        localStorage.setItem("token", token);
+        
+        navigate("/home");
+      } else {
+        toast.error("Invalid credentials");
+      }
+    } catch (error) {
+      if (error.response) {
+        console.error("Server responded with error:", error.response.data.message);
+        toast.error(error.response.data.message);
+      } else if (error.request) {
+        console.error("No response received from the server");
+        toast.error("No response received from the server");
+      } else {
+        console.error("Error setting up request:", error.message);
+        toast.error("Error setting up request");
+      }
     }
-    console.log(formData);
-    const res = await axios.post("http://localhost:3000/login", formData); //place api url here
-    console.log(res.data)
-    if(res.data.token){
-      navigate("/home")
-    }else{
-      toast("Invalid credentials!")
-      return
-    }
-   // navigate("/home")
   };
+  
+  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

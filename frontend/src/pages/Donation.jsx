@@ -1,22 +1,24 @@
 import jsPDF from 'jspdf';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'jspdf-autotable';
+import axios from 'axios';
 
 const Donation = () => {
-  const [data, setData] = useState([]);
-
-  // Sample data for demonstration
-  const sampleData = [
-    { resource_id: 1, quantity: 10, resource_person: 'John Doe', resource_type: 'Money' },
-    { resource_id: 2, quantity: 5, resource_person: 'Jane Smith', resource_type: 'Food' },
-    { resource_id: 3, quantity: 8, resource_person: 'Alice Johnson', resource_type: 'Clothing' }
-  ];
+  const [data, setData] = useState([])
+  const fetchDonations = async() => {
+    const res = await axios.get("http://localhost:3000/donations")
+    console.log(res.data.data)
+    setData(res.data.data)
+  }
+  useEffect(()=>{
+    fetchDonations()
+  },[])
   const generatePDF = () => {
     const doc = new jsPDF();
     doc.text('Donation Report', 10, 10);
     doc.autoTable({
-      head: [['Resource ID', 'Quantity', 'Resource Person', 'Resource Type']],
-      body: sampleData.map(item => [item.resource_id, item.quantity, item.resource_person, item.resource_type]),
+      head: [['Resource ID', 'Quantity', 'Resource Type']],
+      body: data.map(item => [item.resource_id, item.quantity,  item.resource_type]),
     });
     doc.save('donation_report.pdf');
   };
@@ -31,16 +33,14 @@ const Donation = () => {
             <tr>
               <th className='border border-gray-800 px-4 py-2'>Resource ID</th>
               <th className='border border-gray-800 px-4 py-2'>Quantity</th>
-              <th className='border border-gray-800 px-4 py-2'>Resource Person</th>
               <th className='border border-gray-800 px-4 py-2'>Resource Type</th>
             </tr>
           </thead>
           <tbody>
-            {sampleData.map((item, index) => (
+            {data.map((item, index) => (
               <tr key={index} className={index % 2 === 0 ? 'bg-gray-100' : 'bg-gray-200'}>
                 <td className='border border-gray-800 px-4 py-2'>{item.resource_id}</td>
                 <td className='border border-gray-800 px-4 py-2'>{item.quantity}</td>
-                <td className='border border-gray-800 px-4 py-2'>{item.resource_person}</td>
                 <td className='border border-gray-800 px-4 py-2'>{item.resource_type}</td>
               </tr>
             ))}

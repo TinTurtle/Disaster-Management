@@ -1,27 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import axios from 'axios';
 
 const Report = () => {
   const [data, setData] = useState([]);
 
- 
-  const sampleData = [
-    { incident_id: 1, title: 'Fire incident', location: 'Main Street', severity: 'High', reporter: 'John Doe' },
-    { incident_id: 2, title: 'Flood', location: 'Park Avenue', severity: 'Medium', reporter: 'Jane Smith' },
-    { incident_id: 3, title: 'Theft', location: 'Broadway', severity: 'Low', reporter: 'Alice Johnson' }
-  ];
+  const fetchreports = async() => {
+    const res = await axios.get("http://localhost:3000/blog")
+    console.log(res.data.data)
+    setData(res.data.data)
+  }
+  useEffect(()=>{
+    fetchreports()
+  },[])
+
   const generatePDF = () => {
     const doc = new jsPDF();
     doc.text('Incident Report', 10, 10);
     doc.autoTable({
-      head: [['Incident ID', 'Title', 'Location', 'Severity', 'Reporter']],
-      body: sampleData.map(item => [
+      head: [['Incident ID', 'Title', 'Location', 'Severity']],
+      body: data.map(item => [
         item.incident_id,
         item.title,
         item.location,
         item.severity,
-        item.reporter,
       ]),
     });
     doc.save('donation_report.pdf');
@@ -39,17 +42,15 @@ const Report = () => {
               <th className='border border-gray-800 px-4 py-2'>Title</th>
               <th className='border border-gray-800 px-4 py-2'>Location</th>
               <th className='border border-gray-800 px-4 py-2'>Severity</th>
-              <th className='border border-gray-800 px-4 py-2'>Reporter</th>
             </tr>
           </thead>
           <tbody>
-            {sampleData.map((item, index) => (
+            {data.map((item, index) => (
               <tr key={index} className={index % 2 === 0 ? 'bg-gray-100' : 'bg-gray-200'}>
                 <td className='border border-gray-800 px-4 py-2'>{item.incident_id}</td>
                 <td className='border border-gray-800 px-4 py-2'>{item.title}</td>
                 <td className='border border-gray-800 px-4 py-2'>{item.location}</td>
                 <td className='border border-gray-800 px-4 py-2'>{item.severity}</td>
-                <td className='border border-gray-800 px-4 py-2'>{item.reporter}</td>
               </tr>
             ))}
           </tbody>
